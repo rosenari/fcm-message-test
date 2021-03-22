@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fcm-test</title>
+</head>
+
+<body>
+<script src="https://www.gstatic.com/firebasejs/8.2.5/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.5/firebase-messaging.js"></script>
+<script>
+window.onload = function(){
+const firebaseConfig = {
+//...
+};
+
+if(!firebase.apps.length){
+	var fire = firebase.initializeApp(firebaseConfig);
+}
+
+// Retrieve an instance of Firebase Messaging so that it can handle background
+// messages.
+var messaging = fire.messaging();
+messaging.requestPermission() 
+.then(function(permission){ console.log(permission + " : Have permission"); 
+return messaging.getToken({vapidKey:"" }) 
+.then(function(token){ console.log('token : ' + token);  }) 
+.catch(function(arr){ console.log("Error Occured"); console.log(arr); });
+messaging.onMessage(function (payload) {
+        console.log("Message received. ", payload);
+        // ...
+      });
+}
+</script>
+</body>
+
+</html>
